@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/test", (req, res) => {
-  res.json({ ok: true });
-});
+const {
+  test,
+  receiveData
+} = require("../controllers/apiController");
+
+router.get("/test", test);
+router.post("/data", receiveData);
 
 module.exports = router;
-
