@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  cpf      String   @id @map("CPF") @db.VarChar(11)
+  nome     String?  @map("Nome") @db.VarChar(100)
+  idade    Int?     @map("Idade")
+  email    String?  @map("Email") @db.VarChar(20)
+  telefone String?  @map("Telefone") @db.VarChar(11)
+  endereco String?  @map("Endereco") @db.VarChar(100)
+  senha    String?  @map("Senha") @db.VarChar(255)
+  cartoes  Cartao[]
+
+  @@map("usuario")
+}
+
+model Cartao {
+  id               Int     @id @default(autoincrement())
+  num_cartao       String? @map("Num_cartao") @db.VarChar(15)
+  data_validade    String? @map("Data_Validade") @db.VarChar(4)
+  digito_seguranca String? @map("Digito_seguuranca") @db.VarChar(3)
+  nome_titular     String? @map("Nome_titular") @db.VarChar(100)
+  cpf              String? @map("CPF") @db.VarChar(11)
+
+  // Relação com a tabela usuário (Foreign Key)
+  usuario Usuario? @relation(fields: [cpf], references: [cpf])
+
+  @@map("cartoes")
+}
